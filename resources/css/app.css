@@ -1,11 +1,12 @@
 @import "./blatui.css";
 
 
-/* MeetMeinSunset Category Grid */
+
+/* MeetMeinSunset - Single Row Category Grid */
 .mms-category-grid {
     display: grid !important;
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 32px 24px;
+    grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+    gap: 20px;
     width: 100%;
 }
 
@@ -15,16 +16,11 @@
     width: 100%;
 }
 
+/* Smaller screens: keep one row and allow horizontal scrolling */
 @media (max-width: 768px) {
     .mms-category-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-        gap: 24px 14px;
-    }
-}
-
-@media (max-width: 420px) {
-    .mms-category-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-        gap: 20px 10px;
+        grid-template-columns: repeat(6, minmax(150px, 1fr)) !important;
+        overflow-x: auto;
+        padding-bottom: 12px;
     }
 }
