@@ -1,1 +1,30 @@
 @import "./blatui.css";
+
+
+/* MeetMeinSunset Category Grid */
+.mms-category-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 32px 24px;
+    width: 100%;
+}
+
+.mms-category-grid > a {
+    display: block;
+    min-width: 0;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .mms-category-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 24px 14px;
+    }
+}
+
+@media (max-width: 420px) {
+    .mms-category-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 20px 10px;
+    }
+}

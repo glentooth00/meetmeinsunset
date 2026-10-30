@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
+//Route::view('/', 'store.home')->name('store.home');
+
 Route::get('/', function () {
-    return view('test');
+    return view('store.home');
 });
+
+Route::view('/', 'store.home')->name('store.home');
