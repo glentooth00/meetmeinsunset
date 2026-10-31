@@ -50,10 +50,10 @@
                 <x-lucide-search class="h-5 w-5"/>
             </a>
 
-            {{-- Account --}}
-            <a href="{{ url('/account') }}"
-               class="hidden rounded-full bg-slate-50 p-2.5 text-[#183B56] hover:bg-slate-100 sm:block"
-               aria-label="My account">
+           {{-- Account --}}
+            <a href="{{ auth()->check() ? url('/account') : route('login') }}"
+            class="hidden rounded-full bg-slate-50 p-2.5 text-[#183B56] hover:bg-slate-100 sm:block"
+            aria-label="My account">
                 <x-lucide-user-round class="h-5 w-5"/>
             </a>
 
