@@ -24,3 +24,43 @@
         padding-bottom: 12px;
     }
 }
+
+
+/* Sonner notification positioning */
+[data-sonner-toaster] {
+    position: fixed !important;
+    right: 24px !important;
+    bottom: 24px !important;
+    left: auto !important;
+    top: auto !important;
+    width: 380px !important;
+    max-width: calc(100vw - 32px) !important;
+    z-index: 99999 !important;
+}
+
+/* Keep individual toast compact */
+[data-sonner-toast] {
+    width: 100% !important;
+    max-width: 380px !important;
+    border-radius: 12px !important;
+}
+
+/* Sonner notification text colors */
+[data-sonner-toast] {
+    background: #ffffff !important;
+    color: #18181b !important;
+    border: 1px solid #e4e4e7 !important;
+    width: 100% !important;
+    max-width: 380px !important;
+}
+
+[data-sonner-toast] [data-title],
+[data-sonner-toast] [data-description] {
+    color: #18181b !important;
+    opacity: 1 !important;
+}
+
+/* Toast icons */
+[data-sonner-toast] [data-icon] {
+    color: #16a34a !important;
+}
