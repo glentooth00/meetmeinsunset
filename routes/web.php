@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Admin\HeroSettingController;
 use App\Models\HeroSetting;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Models\Category;
 /*
 |--------------------------------------------------------------------------
 | Storefront
@@ -14,7 +16,12 @@ use App\Models\HeroSetting;
 Route::get('/', function () {
     $hero = HeroSetting::first();
 
-    return view('store.home', compact('hero'));
+   $categories = Category::where('is_active', true)
+        ->orderBy('sort_order')
+        ->orderBy('name')
+        ->get();
+
+    return view('store.home', compact('hero', 'categories'));
 })->name('store.home');
 
 /*
@@ -55,6 +62,8 @@ Route::middleware(['auth', 'admin'])
     Route::put('/hero', [HeroSettingController::class, 'update'])
         ->name('hero.update');
 
+    Route::resource('categories', CategoryController::class)
+    ->except(['show']);
 
 
     });
