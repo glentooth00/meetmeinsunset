@@ -5,73 +5,77 @@
         MeetMeinSunset | Premium Medical Apparel
     </x-slot:title>
 
-    {{-- Hero Section --}}
-    <section class="mx-auto max-w-[1600px] px-4 pt-5 sm:px-6 lg:px-8">
-        <div class="relative grid min-h-[480px] overflow-hidden rounded-3xl bg-[#EDF4F5] lg:grid-cols-2">
 
-            <div class="relative z-10 flex flex-col justify-center px-8 py-16 md:px-14 lg:px-16">
-                <span class="text-xs font-bold uppercase tracking-[0.2em] text-[#168C91]">
-                    Premium Medical Apparel
+{{-- Hero Section --}}
+<section class="mx-auto max-w-[1600px] px-4 pt-5 sm:px-6 lg:px-8">
+    <div class="relative grid min-h-[480px] overflow-hidden rounded-3xl bg-[#EDF4F5] lg:grid-cols-2">
+
+        <div class="relative z-10 flex flex-col justify-center px-8 py-16 md:px-14 lg:px-16">
+            <span class="text-xs font-bold uppercase tracking-[0.2em] text-[#168C91]">
+                {{ $hero?->eyebrow ?? 'Premium Medical Apparel' }}
+            </span>
+
+            <h1 class="mt-6 max-w-xl text-4xl font-bold leading-tight tracking-tight text-[#183B56] sm:text-5xl lg:text-6xl">
+                {{ $hero?->heading_line_1 ?? 'Comfort.' }}
+                <br>
+                {{ $hero?->heading_line_2 ?? 'Style.' }}
+                <br>
+                {{ $hero?->heading_line_3 ?? 'Professionalism.' }}
+            </h1>
+
+            <p class="mt-6 max-w-md text-base leading-7 text-slate-600">
+                {{ $hero?->description ?? 'Discover quality scrubs, uniforms, and medical apparel designed for the people who care.' }}
+            </p>
+
+            <div class="mt-8">
+                <a href="{{ $hero?->button_url ?: url('/shop') }}"
+                   class="inline-flex items-center gap-3 rounded-full bg-[#183B56] px-8 py-4 text-sm font-semibold text-white transition hover:bg-[#168C91]">
+                    {{ $hero?->button_text ?? 'Shop Now' }}
+                    <x-lucide-arrow-right class="h-4 w-4"/>
+                </a>
+            </div>
+
+            <div class="mt-10 flex flex-wrap gap-6 text-xs font-medium text-slate-600">
+                <span class="flex items-center gap-2">
+                    <x-lucide-truck class="h-5 w-5 text-[#168C91]"/>
+                    {{ $hero?->feature_one ?? 'Convenient Delivery' }}
                 </span>
 
-                <h1 class="mt-6 max-w-xl text-4xl font-bold leading-tight tracking-tight text-[#183B56] sm:text-5xl lg:text-6xl">
-                    Comfort.
-                    <br>
-                    Style.
-                    <br>
-                    Professionalism.
-                </h1>
-
-                <p class="mt-6 max-w-md text-base leading-7 text-slate-600">
-                    Discover quality scrubs, uniforms, and medical apparel
-                    designed for the people who care.
-                </p>
-
-                <div class="mt-8">
-                    <a href="{{ url('/shop') }}"
-                       class="inline-flex items-center gap-3 rounded-full bg-[#183B56] px-8 py-4 text-sm font-semibold text-white transition hover:bg-[#168C91]">
-                        Shop Now
-                        <x-lucide-arrow-right class="h-4 w-4"/>
-                    </a>
-                </div>
-
-                <div class="mt-10 flex flex-wrap gap-6 text-xs font-medium text-slate-600">
-                    <span class="flex items-center gap-2">
-                        <x-lucide-truck class="h-5 w-5 text-[#168C91]"/>
-                        Convenient Delivery
-                    </span>
-
-                    <span class="flex items-center gap-2">
-                        <x-lucide-shield-check class="h-5 w-5 text-[#168C91]"/>
-                        Secure Shopping
-                    </span>
-                </div>
-            </div>
-
-            {{-- Hero Image --}}
-            <div class="relative min-h-[300px] overflow-hidden bg-gradient-to-br from-[#D8E9EC] via-[#C8DDE0] to-[#EDF4F5]">
-                @if(file_exists(public_path('images/store/hero.jpg')))
-                    <img src="{{ asset('images/store/hero.jpg') }}"
-                         alt="Healthcare professionals wearing medical scrubs"
-                         class="absolute inset-0 h-full w-full object-cover">
-                @else
-                    <div class="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
-                        <div class="rounded-full bg-white/70 p-7">
-                            <x-lucide-stethoscope class="h-20 w-20 text-[#168C91]"/>
-                        </div>
-
-                        <p class="mt-5 text-sm font-semibold text-[#183B56]">
-                            Your lifestyle hero photography goes here
-                        </p>
-
-                        <p class="mt-2 text-xs text-slate-600">
-                            Add your hero image at public/images/store/hero.jpg
-                        </p>
-                    </div>
-                @endif
+                <span class="flex items-center gap-2">
+                    <x-lucide-shield-check class="h-5 w-5 text-[#168C91]"/>
+                    {{ $hero?->feature_two ?? 'Secure Shopping' }}
+                </span>
             </div>
         </div>
-    </section>
+
+        {{-- Hero Image --}}
+        <div class="relative min-h-[300px] overflow-hidden bg-gradient-to-br from-[#D8E9EC] via-[#C8DDE0] to-[#EDF4F5]">
+
+            @if($hero?->image_path)
+                <img
+                    src="{{ asset('storage/'.$hero->image_path) }}"
+                    alt="{{ $hero->image_alt ?: 'Healthcare professionals wearing medical scrubs' }}"
+                    class="absolute inset-0 h-full w-full object-cover"
+                >
+            @else
+                <div class="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
+                    <div class="rounded-full bg-white/70 p-7">
+                        <x-lucide-stethoscope class="h-20 w-20 text-[#168C91]"/>
+                    </div>
+
+                    <p class="mt-5 text-sm font-semibold text-[#183B56]">
+                        Your lifestyle hero photography goes here
+                    </p>
+
+                    <p class="mt-2 text-xs text-slate-600">
+                        Upload your hero image from the admin panel.
+                    </p>
+                </div>
+            @endif
+
+        </div>
+    </div>
+</section>
 
 
     {{-- Shop by Category --}}

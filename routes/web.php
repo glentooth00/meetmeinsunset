@@ -3,14 +3,19 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-
+use App\Http\Controllers\Admin\HeroSettingController;
+use App\Models\HeroSetting;
 /*
 |--------------------------------------------------------------------------
 | Storefront
 |--------------------------------------------------------------------------
 */
 
-Route::view('/', 'store.home')->name('store.home');
+Route::get('/', function () {
+    $hero = HeroSetting::first();
+
+    return view('store.home', compact('hero'));
+})->name('store.home');
 
 /*
 |--------------------------------------------------------------------------
@@ -42,4 +47,14 @@ Route::middleware(['auth', 'admin'])
     ->group(function () {
         Route::view('/dashboard', 'admin.dashboard')
             ->name('dashboard');
+
+
+    Route::get('/hero', [HeroSettingController::class, 'edit'])
+    ->name('hero.edit');
+
+    Route::put('/hero', [HeroSettingController::class, 'update'])
+        ->name('hero.update');
+
+
+
     });
