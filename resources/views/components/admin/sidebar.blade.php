@@ -50,11 +50,6 @@
                     Products
                 </a>
 
-                <a href="#"
-                   class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-muted-foreground transition hover:bg-accent hover:text-foreground">
-                    <x-lucide-layers class="h-4 w-4" />
-                    Categories
-                </a>
 
                 <a href="#"
                    class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-muted-foreground transition hover:bg-accent hover:text-foreground">
@@ -93,6 +88,12 @@
                    class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-muted-foreground transition hover:bg-accent hover:text-foreground">
                     <x-lucide-tags class="h-4 w-4" />
                     Promotions
+                </a>
+
+                <a href="{{ route('admin.categories.index') }}"
+                   class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-muted-foreground transition hover:bg-accent hover:text-foreground">
+                    <x-lucide-layers class="h-4 w-4" />
+                    Categories
                 </a>
 
             </div>
