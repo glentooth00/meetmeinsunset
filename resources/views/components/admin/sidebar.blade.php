@@ -44,8 +44,8 @@
                     Dashboard
                 </a>
 
-                <a href="#"
-                   class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-muted-foreground transition hover:bg-accent hover:text-foreground">
+                <a href="{{ route('admin.products.index') }}"
+                class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-muted-foreground transition hover:bg-accent hover:text-foreground {{ request()->routeIs('admin.products.*') ? 'bg-accent text-foreground' : '' }}">
                     <x-lucide-shopping-bag class="h-4 w-4" />
                     Products
                 </a>

@@ -192,43 +192,41 @@
                     </h2>
                 </div>
 
-                <a href="{{ url('/shop') }}"
-                   class="flex items-center gap-2 text-sm font-semibold text-[#183B56] transition hover:text-[#168C91]">
-                    View All
-                    <x-lucide-arrow-right class="h-4 w-4"/>
-                </a>
+                <a href="{{ route('store.shop') }}"
+                    class="flex items-center gap-2 text-sm font-semibold text-[#183B56] transition hover:text-[#168C91]">
+                        View All
+                        <x-lucide-arrow-right class="h-4 w-4"/>
+                    </a>
             </div>
 
-            <div class="grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-4">
+            @if($products->isNotEmpty())
+                <div class="grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-4">
 
-                <x-store.product-card
-                    name="Classic Navy Scrub Set"
-                    category="Women's Collection"
-                    price="1299"
-                    badge="Best Seller"
-                />
+                    @foreach($products as $product)
+                        <x-store.product-card
+                            :name="$product->name"
+                            :category="$product->category?->name ?? 'Medical Apparel'"
+                            :price="$product->sale_price ?? $product->price"
+                            :badge="$product->is_featured ? 'Featured' : null"
+                            :image="$product->image_path ? asset('storage/' . $product->image_path) : null"
+                        />
+                    @endforeach
 
-                <x-store.product-card
-                    name="Essential Men's Scrubs"
-                    category="Men's Collection"
-                    price="1399"
-                    badge="New"
-                />
+                </div>
+            @else
+                <div class="rounded-xl border border-dashed border-gray-300 bg-white px-6 py-16 text-center">
+                    <x-lucide-package class="mx-auto h-10 w-10 text-gray-300"/>
 
-                <x-store.product-card
-                    name="Everyday Comfort Scrubs"
-                    category="Women's Collection"
-                    price="1199"
-                />
+                    <h3 class="mt-4 text-lg font-semibold text-[#183B56]">
+                        Products coming soon
+                    </h3>
 
-                <x-store.product-card
-                    name="Premium Teal Scrub Set"
-                    category="Men's Collection"
-                    price="1499"
-                    badge="Popular"
-                />
+                    <p class="mt-1 text-sm text-gray-500">
+                        We're preparing our collection. Check back soon!
+                    </p>
+                </div>
+            @endif
 
-            </div>
         </div>
     </section>
 
