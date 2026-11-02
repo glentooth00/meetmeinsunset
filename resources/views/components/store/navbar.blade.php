@@ -50,11 +50,12 @@
                 <x-lucide-search class="h-5 w-5"/>
             </a>
 
-           {{-- Account --}}
-            <a href="{{ auth()->check() ? url('/account') : route('login') }}"
+           {{-- Account / My Cart --}}
+            <a href="{{ route('cart.index') }}"
             class="hidden rounded-full bg-slate-50 p-2.5 text-[#183B56] hover:bg-slate-100 sm:block"
-            aria-label="My account">
-                <x-lucide-user-round class="h-5 w-5"/>
+            aria-label="My Cart">
+
+                <x-lucide-shopping-bag class="h-5 w-5"/>
             </a>
 
             {{-- Cart --}}
