@@ -66,8 +66,7 @@
 
 
                     {{-- Login Form --}}
-                    <form method="POST" action="{{ route('login.store') }}" class="space-y-6">
-
+                    <form method="POST" action="{{ route('customer.login.store') }}" class="space-y-6">
                         @csrf
 
                         {{-- Email --}}
@@ -151,23 +150,34 @@
 
 
                     {{-- Registration Link --}}
-                    <div class="mt-8 text-center">
-                        <p class="text-sm text-slate-500">
-                            Don't have an account?
+                    <div class="mt-6 text-center text-sm text-gray-500">
+                        Don't have an account?
 
-                            <a href="{{ url('/register') }}"
-                               class="font-semibold text-[#168C91] hover:text-[#183B56]">
-                                Create an account
-                            </a>
-                        </p>
+                        <a href="{{ route('customer.register') }}"
+                           class="font-semibold text-[#168C91] hover:text-[#183B56]">
+                            Create an account
+                        </a>
                     </div>
 
 
+                    {{-- Back to Store --}}
                     <div class="mt-10 border-t border-slate-100 pt-6 text-center">
                         <a href="{{ route('store.home') }}"
                            class="text-xs font-medium text-slate-400 transition hover:text-[#168C91]">
                             ← Back to MeetMeinSunset
                         </a>
+                    </div>
+
+                    {{-- Admin Login --}}
+                    <div class="mt-5 text-center">
+                        <p class="text-xs text-slate-400">
+                            Are you an administrator?
+
+                            <a href="{{ route('admin.login') }}"
+                               class="font-semibold text-[#183B56] transition hover:text-[#168C91]">
+                                Admin Login
+                            </a>
+                        </p>
                     </div>
 
                 </div>
