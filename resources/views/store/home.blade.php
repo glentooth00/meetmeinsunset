@@ -77,10 +77,10 @@
         </div>
     </section>
 
-
     {{-- Shop by Category --}}
     <section class="mx-auto max-w-[1600px] px-4 py-20 sm:px-6 lg:px-8">
 
+        {{-- Section Heading --}}
         <div class="mb-10 flex flex-col items-center text-center">
             <p class="text-xs font-bold uppercase tracking-[0.2em] text-[#168C91]">
                 Explore Our Collection
@@ -94,52 +94,88 @@
                 Find everything you need to look and feel your best throughout every shift.
             </p>
         </div>
-        
-        {{-- Responsive horizontal grid --}}
-        <div class="mms-category-grid">
 
-        @foreach ($categories as $category)
-            <a href="{{ url('/categories') }}" class="group min-w-0">
+        @if($categories->isNotEmpty())
 
-                <div class="relative aspect-[4/5] overflow-hidden rounded-xl bg-[#EDF4F5]">
+            <x-ui.carousel class="w-full">
 
-                    @if($category->image_path)
-                        <img
-                            src="{{ asset('storage/' . $category->image_path) }}"
-                            alt="{{ $category->name }}"
-                            class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                        >
-                    @else
-                        <div class="flex h-full w-full flex-col items-center justify-center gap-4 text-[#168C91]">
-                            <x-lucide-image class="h-10 w-10 opacity-50"/>
-                            <span class="text-xs font-medium text-slate-400">
-                                Category Image
-                            </span>
-                        </div>
-                    @endif
+                <x-ui.carousel-content>
 
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#183B56]/30 to-transparent opacity-0 transition group-hover:opacity-100"></div>
+                    @foreach($categories as $category)
+                        <x-ui.carousel-item class="basis-1/2 sm:basis-1/3 lg:basis-1/6">
+
+                            <div class="p-2">
+                                <a href="{{ url('/categories/' . $category->slug) }}"
+                                class="group block min-w-0">
+
+                                    {{-- Category Image --}}
+                                    <div class="relative aspect-[4/5] overflow-hidden rounded-xl bg-[#EDF4F5]">
+
+                                        @if($category->image_path)
+                                            <img
+                                                src="{{ asset('storage/' . $category->image_path) }}"
+                                                alt="{{ $category->name }}"
+                                                class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                                            >
+                                        @else
+                                            <div class="flex h-full w-full flex-col items-center justify-center gap-4 text-[#168C91]">
+                                                <x-lucide-image class="h-10 w-10 opacity-50"/>
+
+                                                <span class="text-xs font-medium text-slate-400">
+                                                    Category Image
+                                                </span>
+                                            </div>
+                                        @endif
+
+                                        <div class="absolute inset-0 bg-gradient-to-t from-[#183B56]/30 to-transparent opacity-0 transition group-hover:opacity-100"></div>
+                                    </div>
+
+                                    {{-- Category Details --}}
+                                    <div class="flex items-start justify-between gap-2 pt-4">
+
+                                        <div class="min-w-0">
+                                            <h3 class="text-sm font-bold text-[#183B56] transition group-hover:text-[#168C91]">
+                                                {{ $category->name }}
+                                            </h3>
+
+                                            <p class="mt-1 text-xs leading-5 text-slate-500 line-clamp-2">
+                                                {{ $category->description }}
+                                            </p>
+                                        </div>
+
+                                        <x-lucide-arrow-up-right
+                                            class="mt-1 h-4 w-4 shrink-0 text-[#168C91] transition group-hover:translate-x-1 group-hover:-translate-y-1"
+                                        />
+
+                                    </div>
+
+                                </a>
+                            </div>
+
+                        </x-ui.carousel-item>
+                    @endforeach
+
+                </x-ui.carousel-content>
+
+                {{-- Navigation --}}
+                <div class="mt-8 flex justify-center gap-3">
+                    <x-ui.carousel-previous />
+                    <x-ui.carousel-next />
                 </div>
 
-                <div class="flex items-start justify-between gap-2 pt-4">
-                    <div class="min-w-0">
-                        <h3 class="text-sm font-bold text-[#183B56] transition group-hover:text-[#168C91] sm:text-base">
-                            {{ $category->name }}
-                        </h3>
+            </x-ui.carousel>
 
-                        <p class="mt-1 text-xs text-slate-500">
-                            {{ $category->description }}
-                        </p>
-                    </div>
+        @else
 
-                    <x-lucide-arrow-up-right class="mt-1 h-4 w-4 shrink-0 text-[#168C91] transition group-hover:translate-x-1 group-hover:-translate-y-1"/>
-                </div>
-            </a>
-        @endforeach
+            <div class="py-12 text-center">
+                <p class="text-sm text-slate-400">
+                    Categories will appear here soon.
+                </p>
+            </div>
 
-        </div>
+        @endif
+
     </section>
-
 
     {{-- Best Sellers --}}
     <section class="bg-[#F8FAFB] py-16">
