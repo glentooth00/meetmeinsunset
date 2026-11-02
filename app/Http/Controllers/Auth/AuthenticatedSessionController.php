@@ -11,7 +11,7 @@ class AuthenticatedSessionController extends Controller
 {
     public function create()
     {
-        return view('store.auth.login');
+        return view('admin.auth.login');
     }
 
 

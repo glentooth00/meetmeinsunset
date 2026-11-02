@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Foundation\Application;
@@ -12,12 +13,29 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+
+        // Middleware aliases
         $middleware->alias([
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
         ]);
+
+        // Separate login redirects for Admin and Customers
+        $middleware->redirectGuestsTo(function (Request $request) {
+
+            // Admin pages redirect to Admin Login
+            if ($request->is('admin') || $request->is('admin/*')) {
+                return route('admin.login');
+            }
+
+            // Storefront and customer pages redirect to Customer Login
+            return route('customer.login');
+        });
+
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
         );
+
     })->create();

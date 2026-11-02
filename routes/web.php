@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\ConsumerRegisteredUserController;
+use App\Http\Controllers\Auth\ConsumerSessionController;
+
 use App\Http\Controllers\Admin\HeroSettingController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
@@ -12,6 +15,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Models\HeroSetting;
 use App\Models\Category;
 use App\Models\Product;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -52,6 +56,12 @@ Route::get('/', function () {
 })->name('store.home');
 
 
+/*
+|--------------------------------------------------------------------------
+| Shop
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/shop', function (Request $request) {
     $categories = Category::where('is_active', true)
         ->orderBy('sort_order')
@@ -71,7 +81,7 @@ Route::get('/shop', function (Request $request) {
     if ($request->filled('category')) {
         $query->whereHas('category', function ($q) use ($request) {
             $q->where('slug', $request->category)
-              ->where('is_active', true);
+                ->where('is_active', true);
         });
     }
 
@@ -101,17 +111,21 @@ Route::get('/shop', function (Request $request) {
 
 /*
 |--------------------------------------------------------------------------
-| Authentication
+| Admin Authentication
 |--------------------------------------------------------------------------
 */
 
-Route::middleware('guest')->group(function () {
-    Route::get('/login', [AuthenticatedSessionController::class, 'create'])
-        ->name('login');
+Route::middleware('guest')
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
 
-    Route::post('/login', [AuthenticatedSessionController::class, 'store'])
-        ->name('login.store');
-});
+        Route::get('/login', [AuthenticatedSessionController::class, 'create'])
+            ->name('login');
+
+        Route::post('/login', [AuthenticatedSessionController::class, 'store'])
+            ->name('login.store');
+    });
 
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->middleware('auth')
@@ -120,7 +134,69 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
 
 /*
 |--------------------------------------------------------------------------
-| Admin
+| Customer Authentication
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware('guest:consumer')
+    ->prefix('customer')
+    ->name('customer.')
+    ->group(function () {
+
+        Route::get('/login', [ConsumerSessionController::class, 'create'])
+            ->name('login');
+
+        Route::post('/login', [ConsumerSessionController::class, 'store'])
+            ->name('login.store');
+
+        Route::get('/register', [ConsumerRegisteredUserController::class, 'create'])
+            ->name('register');
+
+        Route::post('/register', [ConsumerRegisteredUserController::class, 'store'])
+            ->name('register.store');
+    });
+
+Route::post('/customer/logout', [ConsumerSessionController::class, 'destroy'])
+    ->middleware('auth:consumer')
+    ->name('customer.logout');
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Consumer Panel
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware('auth:consumer')
+    ->prefix('account')
+    ->name('consumer.')
+    ->group(function () {
+
+        Route::view('/dashboard', 'store.account.dashboard')
+            ->name('dashboard');
+
+        Route::view('/orders', 'store.account.orders')
+            ->name('orders');
+
+        Route::view('/orders/history', 'store.account.order-history')
+            ->name('orders.history');
+
+        Route::view('/profile', 'store.account.profile')
+            ->name('account');
+
+    });
+
+// Cart remains accessible through /cart
+Route::view('/cart', 'store.cart.index')
+    ->middleware('auth:consumer')
+    ->name('cart.index');
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Admin Dashboard and Management
 |--------------------------------------------------------------------------
 */
 
@@ -143,4 +219,5 @@ Route::middleware(['auth', 'admin'])
 
         Route::resource('products', ProductController::class)
             ->only(['index', 'store', 'update', 'destroy']);
+
     });
